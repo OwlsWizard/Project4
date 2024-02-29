@@ -2,6 +2,8 @@ from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
 from direct.task import Task
 
+from CollideObjectBase import *
+
 import math
 
 class GameConstruct(ShowBase):
@@ -22,34 +24,58 @@ class GameConstruct(ShowBase):
         self.modelNode.setHpr(hpr) 
         self.modelNode.setScale(scaleVec)    
 
-class Universe(GameConstruct):
+class Universe(ShowBase):
     def __init__(self,
                  nodeName: str, 
                  loader: Loader, parentNode: NodePath,  
                  modelPath: str, texPath: str, 
                  posVec: Vec3, hpr: Vec3, scaleVec: float):
 
-        super().__init__(nodeName, loader, parentNode, modelPath, texPath, posVec, hpr, scaleVec)
-
-class Planet(GameConstruct):
+        self.modelNode = loader.loadModel(modelPath)
+        self.modelNode.reparentTo(parentNode)
+        
+        self.modelNode.setName(nodeName)
+        self.modelNode.setTexture(loader.loadTexture(texPath), 1)
+        
+        self.modelNode.setPos(posVec)
+        self.modelNode.setHpr(hpr) 
+        self.modelNode.setScale(scaleVec)    
+         
+class Planet(ShowBase):
     def __init__(self,
                  nodeName: str, 
                  loader: Loader, parentNode: NodePath,  
                  modelPath: str, texPath: str, 
                  posVec: Vec3, hpr: Vec3, scaleVec: float):
         
-        super().__init__(nodeName, loader, parentNode, modelPath, texPath, posVec, hpr, scaleVec)
+        self.modelNode = loader.loadModel(modelPath)
+        self.modelNode.reparentTo(parentNode)
+        
+        self.modelNode.setName(nodeName)
+        self.modelNode.setTexture(loader.loadTexture(texPath), 1)
+        
+        self.modelNode.setPos(posVec)
+        self.modelNode.setHpr(hpr) 
+        self.modelNode.setScale(scaleVec)  
     
-class SpaceStation(GameConstruct):
+class SpaceStation(ShowBase):
     def __init__(self,
                  nodeName: str, 
                  loader: Loader, parentNode: NodePath,  
                  modelPath: str, texPath: str, 
                  posVec: Vec3, hpr: Vec3, scaleVec: float):
         
-        super().__init__(nodeName, loader, parentNode, modelPath, texPath, posVec, hpr, scaleVec)
+        self.modelNode = loader.loadModel(modelPath)
+        self.modelNode.reparentTo(parentNode)
+        
+        self.modelNode.setName(nodeName)
+        self.modelNode.setTexture(loader.loadTexture(texPath), 1)
+        
+        self.modelNode.setPos(posVec)
+        self.modelNode.setHpr(hpr) 
+        self.modelNode.setScale(scaleVec)  
 
-class Player(GameConstruct):
+class Player(ShowBase):
     def __init__(self,
                  nodeName: str, 
                  loader: Loader, parentNode: NodePath,
@@ -57,7 +83,17 @@ class Player(GameConstruct):
                  posVec: Vec3, hpr: Vec3, scaleVec: float,
                  taskMgr: Task, renderer: NodePath):
         
-        super().__init__(nodeName, loader, parentNode, modelPath, texPath, posVec, hpr, scaleVec)
+        self.modelNode = loader.loadModel(modelPath)
+        self.modelNode.reparentTo(parentNode)
+        
+        self.modelNode.setName(nodeName)
+        self.modelNode.setTexture(loader.loadTexture(texPath), 1)
+        
+        self.modelNode.setPos(posVec)
+        self.modelNode.setHpr(hpr) 
+        self.modelNode.setScale(scaleVec)  
+        
+        
         self.taskManager = taskMgr
         self.render = renderer
         

@@ -1,14 +1,25 @@
 from direct.showbase.ShowBase import ShowBase
+from panda3d.core import CollisionTraverser, CollisionHandlerPusher
 
 import SpaceJamClasses as spaceJamClasses
 import DefensePaths as defensePaths
 
+from CollideObjectBase import PlacedObject
 
 class MyApp(ShowBase): 
     def __init__(self):
         ShowBase.__init__(self) 
         self.setupScene()
         self.setCamera()
+        
+        """
+        self.cTrav = CollisionTraverser()
+        self.cTrav.traverse(self.render)
+        self.pusher = CollisionHandlerPusher() #Creates pusher for when two objects touch
+        self.pusher.addCollider(self.Player.collisionNode, self.player.modelNode)
+        self.cTrav.add_collider(self.player.collisionNode,self.pusher)
+        self.cTrav.show_collisions(self.render) #makes collisions visible
+        """
            
                    
     def setupScene(self):
