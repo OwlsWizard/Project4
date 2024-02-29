@@ -6,35 +6,21 @@ from CollideObjectBase import *
 
 import math
 
-class GameConstruct(ShowBase):
-    def __init__(self,
-                 nodeName: str, 
-                 loader: Loader, parentNode: NodePath,  
-                 modelPath: str, texPath: str, 
-                 posVec: Vec3, hpr: Vec3, scaleVec: float):
-        
+  
 
-        self.modelNode = loader.loadModel(modelPath)
-        self.modelNode.reparentTo(parentNode)
-        
-        self.modelNode.setName(nodeName)
-        self.modelNode.setTexture(loader.loadTexture(texPath), 1)
-        
-        self.modelNode.setPos(posVec)
-        self.modelNode.setHpr(hpr) 
-        self.modelNode.setScale(scaleVec)    
-
-class Universe(ShowBase):
+class Universe(InverseSphereCollideObj): #FIXME CLASS WORKING ON FIRST
     def __init__(self,
-                 nodeName: str, 
-                 loader: Loader, parentNode: NodePath,  
-                 modelPath: str, texPath: str, 
+                 loader: Loader, parentNode: NodePath,
+                 nodeName: str, modelPath: str,   
+                 texPath: str, 
                  posVec: Vec3, hpr: Vec3, scaleVec: float):
 
-        self.modelNode = loader.loadModel(modelPath)
-        self.modelNode.reparentTo(parentNode)
+        super(Universe, self).__init__(loader, parentNode, nodeName, modelPath, Vec3(0,0,0), 0.9)
+        #FIXME: Assignments b/t classes
+        #self.modelNode = loader.loadModel(modelPath)
+        #self.modelNode.reparentTo(parentNode)
         
-        self.modelNode.setName(nodeName)
+        #self.modelNode.setName(nodeName)
         self.modelNode.setTexture(loader.loadTexture(texPath), 1)
         
         self.modelNode.setPos(posVec)
@@ -263,6 +249,24 @@ class Player(ShowBase):
         self.modelNode.setP(self.modelNode.getP() + -self.turnRate)
         return Task.cont      
     """
+
+class GameConstruct(ShowBase):
+    def __init__(self,
+                 nodeName: str, 
+                 loader: Loader, parentNode: NodePath,  
+                 modelPath: str, texPath: str, 
+                 posVec: Vec3, hpr: Vec3, scaleVec: float):
+        
+
+        self.modelNode = loader.loadModel(modelPath)
+        self.modelNode.reparentTo(parentNode)
+        
+        self.modelNode.setName(nodeName)
+        self.modelNode.setTexture(loader.loadTexture(texPath), 1)
+        
+        self.modelNode.setPos(posVec)
+        self.modelNode.setHpr(hpr) 
+        self.modelNode.setScale(scaleVec)  
     
 class Drone(GameConstruct):
     

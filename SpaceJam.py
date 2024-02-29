@@ -36,8 +36,9 @@ class MyApp(ShowBase):
         self.disableMouse()
         """
           
-        self.Universe = spaceJamClasses.Universe("Universe", self.loader, self.render, 
-                                                 "./Assets/Universe/Universe.x",  "./Assets/Universe/starfield-in-blue.jpg", 
+        self.Universe = spaceJamClasses.Universe(self.loader, self.render, 
+                                                 "Universe", "./Assets/Universe/Universe.x",  
+                                                 "./Assets/Universe/starfield-in-blue.jpg", 
                                                  (0,0,0),(0,0,0), 15000)
         
         self.Planet1 = spaceJamClasses.Planet("Planet1", self.loader, self.render, 
