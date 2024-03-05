@@ -1,3 +1,8 @@
+"""
+Highest level classes for SpaceJam.
+"""
+
+
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
 from direct.task import Task
@@ -8,7 +13,7 @@ import math
 
   
 
-class Universe(InverseSphereCollideObj): #FIXME CLASS WORKING ON FIRST
+class Universe(InverseSphereCollideObj):
     def __init__(self,
                  loader: Loader, parentNode: NodePath,
                  nodeName: str, modelPath: str,   
@@ -16,7 +21,6 @@ class Universe(InverseSphereCollideObj): #FIXME CLASS WORKING ON FIRST
                  posVec: Vec3, hpr: Vec3, scaleVec: float):
 
         super(Universe, self).__init__(loader, parentNode, nodeName, modelPath, Vec3(0,0,0), 0.9)
-        #FIXME: Assignments b/t classes
         #self.modelNode = loader.loadModel(modelPath)
         #self.modelNode.reparentTo(parentNode)
         
@@ -26,40 +30,36 @@ class Universe(InverseSphereCollideObj): #FIXME CLASS WORKING ON FIRST
         self.modelNode.setPos(posVec)
         self.modelNode.setHpr(hpr) 
         self.modelNode.setScale(scaleVec)    
-         
-class Planet(ShowBase):
+
+class Planet(SphereCollideObj):
     def __init__(self,
-                 nodeName: str, 
-                 loader: Loader, parentNode: NodePath,  
-                 modelPath: str, texPath: str, 
+                 loader: Loader, parentNode: NodePath,
+                 nodeName: str, modelPath: str,   
+                 texPath: str, 
                  posVec: Vec3, hpr: Vec3, scaleVec: float):
+
+        super(Planet, self).__init__(loader, parentNode, nodeName, modelPath, Vec3(0,0,0), 1.1)
         
-        self.modelNode = loader.loadModel(modelPath)
-        self.modelNode.reparentTo(parentNode)
-        
-        self.modelNode.setName(nodeName)
         self.modelNode.setTexture(loader.loadTexture(texPath), 1)
         
         self.modelNode.setPos(posVec)
         self.modelNode.setHpr(hpr) 
-        self.modelNode.setScale(scaleVec)  
-    
-class SpaceStation(ShowBase):
+        self.modelNode.setScale(scaleVec)       
+
+class SpaceStation(CapsuleCollidableObject): #FIXME: capsule is not aligning properly with spaceship
     def __init__(self,
-                 nodeName: str, 
-                 loader: Loader, parentNode: NodePath,  
-                 modelPath: str, texPath: str, 
+                 loader: Loader, parentNode: NodePath,
+                 nodeName: str, modelPath: str,   
+                 texPath: str, 
                  posVec: Vec3, hpr: Vec3, scaleVec: float):
+
+        super(SpaceStation, self).__init__(loader, parentNode, nodeName, modelPath, 1, -1, 5, 1, -1, -5, 10)
         
-        self.modelNode = loader.loadModel(modelPath)
-        self.modelNode.reparentTo(parentNode)
-        
-        self.modelNode.setName(nodeName)
         self.modelNode.setTexture(loader.loadTexture(texPath), 1)
         
         self.modelNode.setPos(posVec)
         self.modelNode.setHpr(hpr) 
-        self.modelNode.setScale(scaleVec)  
+        self.modelNode.setScale(scaleVec)      
 
 class Player(ShowBase):
     def __init__(self,
@@ -86,7 +86,7 @@ class Player(ShowBase):
         self.turnRate = 0.5
         self.setKeybinds()
 
-    def setKeybinds(self):
+    def setKeybinds(self): #FIXME: Error with movement in relative directions
         self.accept("space", self.thrust, [1])
         self.accept("space-up", self.thrust, [0])
         
@@ -119,42 +119,42 @@ class Player(ShowBase):
             self.taskManager.add(self.applyLeftTurn, "left-turn")
         else:
             self.taskManager.remove("left-turn")
-            #print(self.modelNode.getHpr())
+            print(self.modelNode.getHpr())
     
     def rightTurn(self, keyDown):
         if keyDown:
             self.taskManager.add(self.applyRightTurn, "right-turn")
         else:
             self.taskManager.remove("right-turn")
-            #print(self.modelNode.getHpr())    
+            print(self.modelNode.getHpr())    
 
     def upTurn(self, keyDown):
         if keyDown:
             self.taskManager.add(self.applyUpTurn, "up-turn")
         else:
             self.taskManager.remove("up-turn")
-            #print(self.modelNode.getHpr())
+            print(self.modelNode.getHpr())
     
     def downTurn(self, keyDown):
         if keyDown:
             self.taskManager.add(self.applyDownTurn, "down-turn")
         else:
             self.taskManager.remove("down-turn")
-            #print(self.modelNode.getHpr())
+            print(self.modelNode.getHpr())
             
     def leftRoll(self, keyDown):
         if keyDown:
             self.taskManager.add(self.applyLeftRoll, "left-roll")
         else:
             self.taskManager.remove("left-roll")
-            #print(self.modelNode.getHpr())                   
+            print(self.modelNode.getHpr())                   
 
     def rightRoll(self, keyDown):
         if keyDown:
             self.taskManager.add(self.applyRightRoll, "right-roll")
         else:
             self.taskManager.remove("right-roll")
-            #print(self.modelNode.getHpr())    
+            print(self.modelNode.getHpr())    
                 
     def applyThrust(self, task):
         shipSpeed = 5 #rate of movement
@@ -167,6 +167,7 @@ class Player(ShowBase):
         self.modelNode.setFluidPos(self.modelNode.getPos() + trajectory * shipSpeed) #controls movement itself
         return Task.cont
     
+    """
     def applyLeftTurn(self, task):
         rotation = self.modelNode.getHpr()
         vector = self.pullVectorLR(rotation)
@@ -199,19 +200,12 @@ class Player(ShowBase):
         self.modelNode.setHpr(self.modelNode.getH() - vectorX, self.modelNode.getP() - vectorY, self.modelNode.getR())
         return Task.cont   
 
-    def applyLeftRoll(self, task): 
-        self.modelNode.setR(self.modelNode.getR() + -self.turnRate)
-        return Task.cont
-
-    def applyRightRoll(self, task): 
-        self.modelNode.setR(self.modelNode.getR() + self.turnRate)
-        return Task.cont
-
+    #FIXME: Need logic to determine if ship is up or down relative to world (180 <= x < 270 is cutoff for directions reversed, inclusive)
     def pullVectorLR(self, hpr: Vec3):
-        """
+        
         Pulls XZ vectors to increase in movement direction for left, right movement, and returns as a list in format [x,y]. 
         Needed to fix movement issues where tilting "left" tilts ship left relative to world, not the ship itself
-        """
+        
         rotation = hpr[2]
         relativeX = self.turnRate * math.cos(math.radians(rotation))
         relativeY = self.turnRate * math.sin(math.radians(rotation))
@@ -220,19 +214,19 @@ class Player(ShowBase):
         return cordinateList
     
     def pullVectorUD(self, hpr: Vec3):
-        """
+        
         Pulls XZ vector to increase in movement direction for Up, Down movement, abd returns as a list in format [x,z]. 
         Needed to fix movement issues where tilting "up" tilts ship up relative to world, not the ship itself.
-        """
+        
         rotation = hpr[2] + 90
         relativeX = self.turnRate * math.cos(math.radians(rotation))
         relativeY = self.turnRate * math.sin(math.radians(rotation))
         cordinateList = [relativeX, relativeY]
         
         return cordinateList
-    
     """
-    OLD METHODS FOR TURNING
+   
+    #OLD METHODS FOR TURNING
     def applyLeftTurn(self, task):
         self.modelNode.setH(self.modelNode.getH() + self.turnRate)
         return Task.cont
@@ -247,9 +241,17 @@ class Player(ShowBase):
   
     def applyDownTurn(self, task):
         self.modelNode.setP(self.modelNode.getP() + -self.turnRate)
-        return Task.cont      
-    """
+        return Task.cont
+    
+    def applyLeftRoll(self, task): 
+        self.modelNode.setR(self.modelNode.getR() + -self.turnRate)
+        return Task.cont
 
+    def applyRightRoll(self, task): 
+        self.modelNode.setR(self.modelNode.getR() + self.turnRate)
+        return Task.cont      
+    
+    
 class GameConstruct(ShowBase):
     def __init__(self,
                  nodeName: str, 

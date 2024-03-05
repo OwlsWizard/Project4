@@ -4,7 +4,7 @@ from panda3d.core import CollisionTraverser, CollisionHandlerPusher
 import SpaceJamClasses as spaceJamClasses
 import DefensePaths as defensePaths
 
-from CollideObjectBase import PlacedObject
+from CollideObjectBase import *
 
 class MyApp(ShowBase): 
     def __init__(self):
@@ -16,8 +16,8 @@ class MyApp(ShowBase):
         self.cTrav = CollisionTraverser()
         self.cTrav.traverse(self.render)
         self.pusher = CollisionHandlerPusher() #Creates pusher for when two objects touch
-        self.pusher.addCollider(self.Player.collisionNode, self.player.modelNode)
-        self.cTrav.add_collider(self.player.collisionNode,self.pusher)
+        self.pusher.addCollider(self.Player.collisionNode, self.Player.modelNode)
+        self.cTrav.add_collider(self.Player.collisionNode,self.pusher)
         self.cTrav.show_collisions(self.render) #makes collisions visible
         """
            
@@ -41,33 +41,34 @@ class MyApp(ShowBase):
                                                  "./Assets/Universe/starfield-in-blue.jpg", 
                                                  (0,0,0),(0,0,0), 15000)
         
-        self.Planet1 = spaceJamClasses.Planet("Planet1", self.loader, self.render, 
-                                              "./Assets/Planets/protoPlanet.x",  "./Assets/Planets/gas-giant.png",
+        self.Planet1 = spaceJamClasses.Planet(self.loader, self.render, 
+                                              "Planet1","./Assets/Planets/protoPlanet.x",  
+                                              "./Assets/Planets/gas-giant.png",
                                               (150, 5000, 67), (90,90,90), 350)
         
-        self.Planet2 = spaceJamClasses.Planet("Planet2", self.loader, self.render, 
-                                              "./Assets/Planets/redPlanet.x",  "./Assets/Planets/marslike.jpg", 
+        self.Planet2 = spaceJamClasses.Planet(self.loader, self.render, 
+                                              "Planet2","./Assets/Planets/redPlanet.x",  "./Assets/Planets/marslike.jpg", 
                                               (-150, -5000, 67), (0,0,0), 300)
         
-        self.Planet3 = spaceJamClasses.Planet("Planet3", self.loader, self.render, 
-                                              "./Assets/Planets/redPlanet.x",  "./Assets/Planets/rockyMoon.jpg", 
+        self.Planet3 = spaceJamClasses.Planet(self.loader, self.render, 
+                                              "Planet3", "./Assets/Planets/redPlanet.x",  "./Assets/Planets/rockyMoon.jpg", 
                                               (-800, -5000, 67), (0,0,0), 100)
         
-        self.Planet4 = spaceJamClasses.Planet("Planet4", self.loader, self.render, 
-                                              "./Assets/Planets/protoPlanet.x",  "./Assets/Planets/icyPlanet.jpg", 
+        self.Planet4 = spaceJamClasses.Planet( self.loader, self.render, 
+                                              "Planet4","./Assets/Planets/protoPlanet.x",  "./Assets/Planets/icyPlanet.jpg", 
                                               (5000, 150, 67), (0,0,0), (300))
         
-        self.Planet5 = spaceJamClasses.Planet("Planet5", self.loader, self.render,
-                                              "./Assets/Planets/protoPlanet.x",  "./Assets/Planets/redGasGiant.png", 
+        self.Planet5 = spaceJamClasses.Planet(self.loader, self.render,
+                                              "Planet5", "./Assets/Planets/protoPlanet.x",  "./Assets/Planets/redGasGiant.png", 
                                               (-5000, -150, 67), (270,90,0), (320))
         
-        self.Planet6 = spaceJamClasses.Planet("Planet6", self.loader, self.render, 
-                                              "./Assets/Planets/protoPlanet.x",  "./Assets/Planets/greenGasGiant.jpg", 
+        self.Planet6 = spaceJamClasses.Planet(self.loader, self.render, 
+                                              "Planet6", "./Assets/Planets/protoPlanet.x",  "./Assets/Planets/greenGasGiant.jpg", 
                                               (3000, 2500, 67), (90,90,90), (300)) 
         
-        self.SpaceStation = spaceJamClasses.SpaceStation("SpaceStation", self.loader, self.render, 
-                                                         "./Assets/SpaceStation/spaceStation.x",  "./Assets/SpaceStation/SpaceStation1_Dif2.png", 
-                                                         (-100, -100, 20), (0,90,0), (1))
+        self.SpaceStation = spaceJamClasses.SpaceStation(self.loader, self.render, 
+                                                         "SpaceStation", "./Assets/SpaceStation/spaceStation.x",  "./Assets/SpaceStation/SpaceStation1_Dif2.png", 
+                                                         (-100, -100, 20), (0,90,0), (1)) 
         
         self.Player = spaceJamClasses.Player("Spaceship", self.loader, self.render, 
                                              "./Assets/Spaceships/theBorg/theBorg.x",  "./Assets/Spaceships/theBorg/small_space_ship_2_color.jpg", 
@@ -141,7 +142,7 @@ class MyApp(ShowBase):
     def setCamera(self):
         self.disableMouse()
         self.camera.reparentTo(self.Player.modelNode)
-        self.camera.setFluidPos(0,1, 0)#sets camera to ship cockpit    
+        self.camera.setFluidPos(0,-100, 0)#sets camera to ship cockpit    
                 
 #main        
 app = MyApp()
