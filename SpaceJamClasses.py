@@ -46,20 +46,38 @@ class Planet(SphereCollideObj):
         self.modelNode.setHpr(hpr) 
         self.modelNode.setScale(scaleVec)       
 
-class SpaceStation(CapsuleCollidableObject): #FIXME: capsule is not aligning properly with spaceship
+class SpaceStation(CapsuleCollidableObject): 
     def __init__(self,
                  loader: Loader, parentNode: NodePath,
                  nodeName: str, modelPath: str,   
                  texPath: str, 
                  posVec: Vec3, hpr: Vec3, scaleVec: float):
 
-        super(SpaceStation, self).__init__(loader, parentNode, nodeName, modelPath, 1, -1, 5, 1, -1, -5, 10)
+        super(SpaceStation, self).__init__(loader, parentNode, nodeName, modelPath, 1, -1, 5, 1, -1, -5, 10)#FIXME: Resize Capsule hitboxes
         
         self.modelNode.setTexture(loader.loadTexture(texPath), 1)
         
         self.modelNode.setPos(posVec)
         self.modelNode.setHpr(hpr) 
         self.modelNode.setScale(scaleVec)      
+
+class Drone(CapsuleCollidableObject):
+    
+    droneCount = 0
+    
+    def __init__(self,
+                 loader: Loader, parentNode: NodePath,
+                 nodeName: str, modelPath: str,   
+                 texPath: str, 
+                 posVec: Vec3, hpr: Vec3, scaleVec: float):
+
+        super(Drone, self).__init__(loader, parentNode, nodeName, modelPath, 0, 1.5, 1.5, 0, -1.5, -1.5, 2) 
+        self.modelNode.setTexture(loader.loadTexture(texPath), 1)
+        
+        self.modelNode.setPos(posVec)
+        self.modelNode.setHpr(hpr) 
+        self.modelNode.setScale(scaleVec)      
+
 
 class Player(ShowBase):
     def __init__(self,
@@ -270,16 +288,6 @@ class GameConstruct(ShowBase):
         self.modelNode.setHpr(hpr) 
         self.modelNode.setScale(scaleVec)  
     
-class Drone(GameConstruct):
-    
-    droneCount = 0
-    
-    def __init__(self,
-                 nodeName: str, 
-                 loader: Loader, parentNode: NodePath,  
-                 modelPath: str, texPath: str, 
-                 posVec: Vec3, hpr: Vec3, scaleVec: float):
-        
-        super().__init__(nodeName, loader, parentNode, modelPath, texPath, posVec, hpr, scaleVec)
+
 
         

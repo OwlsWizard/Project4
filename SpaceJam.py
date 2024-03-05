@@ -68,7 +68,7 @@ class MyApp(ShowBase):
         
         self.SpaceStation = spaceJamClasses.SpaceStation(self.loader, self.render, 
                                                          "SpaceStation", "./Assets/SpaceStation/spaceStation.x",  "./Assets/SpaceStation/SpaceStation1_Dif2.png", 
-                                                         (-100, -100, 20), (0,90,0), (1)) 
+                                                         (-100, -100, 20), (0,0, 0), (1)) #FIXME: HPR: 0, 90, 0
         
         self.Player = spaceJamClasses.Player("Spaceship", self.loader, self.render, 
                                              "./Assets/Spaceships/theBorg/theBorg.x",  "./Assets/Spaceships/theBorg/small_space_ship_2_color.jpg", 
@@ -92,8 +92,8 @@ class MyApp(ShowBase):
         unitVec = defensePaths.cloud()
         unitVec.normalize()
         position = unitVec * radius + centralObject.modelNode.getPos()
-        spaceJamClasses.Drone(droneName, self.loader, self.render, 
-                            "./Assets/Spaceships/DroneDefender/DroneDefender.x", "./Assets/Spaceships/DroneDefender/octotoad1_auv.png", 
+        spaceJamClasses.Drone(self.loader, self.render, 
+                            droneName, "./Assets/Spaceships/DroneDefender/DroneDefender.x", "./Assets/Spaceships/DroneDefender/octotoad1_auv.png", 
                             position, (0,0,0), 10)     
         
     def DrawBaseballSeams(self, centralObject, step, numSeams, radius = 1):
@@ -101,8 +101,8 @@ class MyApp(ShowBase):
         unitVec = defensePaths.baseballSeams(step, numSeams, B = 0.4)
         unitVec.normalize()
         position = unitVec * radius * 500 + centralObject.modelNode.getPos()
-        spaceJamClasses.Drone(droneName, self.loader, self.render, 
-                            "./Assets/Spaceships/DroneDefender/DroneDefender.x", "./Assets/Spaceships/DroneDefender/octotoad1_auv.png", 
+        spaceJamClasses.Drone(self.loader, self.render, 
+                            droneName, "./Assets/Spaceships/DroneDefender/DroneDefender.x", "./Assets/Spaceships/DroneDefender/octotoad1_auv.png", 
                             position, (0,0,0), 5)    
       
     def DrawXYRing(self, centralObject, position, radius):
@@ -110,8 +110,8 @@ class MyApp(ShowBase):
         unitVecXY = defensePaths.XYRing(position)
         unitVecXY.normalize()
         positionXY = unitVecXY * radius + centralObject.modelNode.getPos()
-        spaceJamClasses.Drone(droneName, self.loader, self.render, 
-                "./Assets/Spaceships/DroneDefender/DroneDefender.x", "./Assets/Spaceships/DroneDefender/octotoad1_auv.png", 
+        spaceJamClasses.Drone(self.loader, self.render, 
+                droneName, "./Assets/Spaceships/DroneDefender/DroneDefender.x", "./Assets/Spaceships/DroneDefender/octotoad1_auv.png", 
                 positionXY, (0,0,0), 1)
 
     def DrawYZRing(self, centralObject, position, radius):
@@ -120,8 +120,8 @@ class MyApp(ShowBase):
         unitVecYZ.normalize()
         positionYZ = unitVecYZ * radius + centralObject.modelNode.getPos()
         
-        spaceJamClasses.Drone(droneName, self.loader, self.render, 
-                    "./Assets/Spaceships/DroneDefender/DroneDefender.x", "./Assets/Spaceships/DroneDefender/octotoad1_auv.png", 
+        spaceJamClasses.Drone(self.loader, self.render, 
+                    droneName, "./Assets/Spaceships/DroneDefender/DroneDefender.x", "./Assets/Spaceships/DroneDefender/octotoad1_auv.png", 
                     positionYZ, (0,0,0), 1)
 
     def DrawXZRing(self, centralObject, position, radius):
@@ -129,8 +129,8 @@ class MyApp(ShowBase):
         unitVecXZ = defensePaths.XZRing(position)
         unitVecXZ.normalize()
         positionXZ = unitVecXZ * radius + centralObject.modelNode.getPos()
-        spaceJamClasses.Drone(droneName, self.loader, self.render, 
-                    "./Assets/Spaceships/DroneDefender/DroneDefender.x", "./Assets/Spaceships/DroneDefender/octotoad1_auv.png", 
+        spaceJamClasses.Drone(self.loader, self.render, 
+                    droneName, "./Assets/Spaceships/DroneDefender/DroneDefender.x", "./Assets/Spaceships/DroneDefender/octotoad1_auv.png", 
                     positionXZ, (0,0,0), 1) 
         
     def UpdateDroneCount(self):
@@ -142,7 +142,7 @@ class MyApp(ShowBase):
     def setCamera(self):
         self.disableMouse()
         self.camera.reparentTo(self.Player.modelNode)
-        self.camera.setFluidPos(0,-100, 0)#sets camera to ship cockpit    
+        self.camera.setFluidPos(0, 1, 0)#sets camera to ship cockpit    
                 
 #main        
 app = MyApp()
