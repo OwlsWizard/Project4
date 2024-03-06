@@ -68,7 +68,7 @@ class MyApp(ShowBase):
         
         self.SpaceStation = spaceJamClasses.SpaceStation(self.loader, self.render, 
                                                          "SpaceStation", "./Assets/SpaceStation/spaceStation.x",  "./Assets/SpaceStation/SpaceStation1_Dif2.png", 
-                                                         (-100, -100, 20), (0,0, 0), (1)) #FIXME: HPR: 0, 90, 0
+                                                         (-100,-100, 20), (0, 90, 0), (1)) 
         
         self.Player = spaceJamClasses.Player("Spaceship", self.loader, self.render, 
                                              "./Assets/Spaceships/theBorg/theBorg.x",  "./Assets/Spaceships/theBorg/small_space_ship_2_color.jpg", 

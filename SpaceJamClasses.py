@@ -53,7 +53,7 @@ class SpaceStation(CapsuleCollidableObject):
                  texPath: str, 
                  posVec: Vec3, hpr: Vec3, scaleVec: float):
 
-        super(SpaceStation, self).__init__(loader, parentNode, nodeName, modelPath, 1, -1, 5, 1, -1, -5, 10)#FIXME: Resize Capsule hitboxes
+        super(SpaceStation, self).__init__(loader, parentNode, nodeName, modelPath, 5, 0, 5, -7.5, 0, -10, 10)
         
         self.modelNode.setTexture(loader.loadTexture(texPath), 1)
         
