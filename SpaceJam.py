@@ -10,18 +10,9 @@ class MyApp(ShowBase):
     def __init__(self):
         ShowBase.__init__(self) 
         self.setupScene()
+        self.setCollisions()
         self.setCamera()
-        
-        """
-        self.cTrav = CollisionTraverser()
-        self.cTrav.traverse(self.render)
-        self.pusher = CollisionHandlerPusher() #Creates pusher for when two objects touch
-        self.pusher.addCollider(self.Player.collisionNode, self.Player.modelNode)
-        self.cTrav.add_collider(self.Player.collisionNode,self.pusher)
-        self.cTrav.show_collisions(self.render) #makes collisions visible
-        """
-           
-                   
+              
     def setupScene(self):
         
         """
@@ -139,11 +130,19 @@ class MyApp(ShowBase):
         nickName = "Drone" + str(spaceJamClasses.Drone.droneCount)
         return nickName
     
-    
+    def setCollisions(self):    
+        self.cTrav = CollisionTraverser()
+        self.cTrav.traverse(self.render)
+        self.pusher = CollisionHandlerPusher() #Creates pusher for when two objects touch
+        self.pusher.addCollider(self.Player.collisionNode, self.Player.modelNode)
+        self.cTrav.add_collider(self.Player.collisionNode,self.pusher)
+        self.cTrav.show_collisions(self.render) #makes collisions visible
+            
     def setCamera(self):
         self.disableMouse()
         self.camera.reparentTo(self.Player.modelNode)
-        self.camera.setFluidPos(0, 1, 0)#sets camera to ship cockpit    
+        self.camera.setFluidPos(0, 1, 0)#sets camera to ship cockpit
+          
                 
 #main        
 app = MyApp()

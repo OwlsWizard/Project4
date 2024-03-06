@@ -2,16 +2,13 @@
 Highest level classes for SpaceJam.
 """
 
-
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
 from direct.task import Task
 
 from CollideObjectBase import *
 
-import math
-
-  
+#import math
 
 class Universe(InverseSphereCollideObj):
     def __init__(self,
@@ -21,10 +18,7 @@ class Universe(InverseSphereCollideObj):
                  posVec: Vec3, hpr: Vec3, scaleVec: float):
 
         super(Universe, self).__init__(loader, parentNode, nodeName, modelPath, Vec3(0,0,0), 0.9)
-        #self.modelNode = loader.loadModel(modelPath)
-        #self.modelNode.reparentTo(parentNode)
-        
-        #self.modelNode.setName(nodeName)
+
         self.modelNode.setTexture(loader.loadTexture(texPath), 1)
         
         self.modelNode.setPos(posVec)
@@ -134,42 +128,42 @@ class Player(CapsuleCollidableObject, ShowBase):
             self.taskManager.add(self.applyLeftTurn, "left-turn")
         else:
             self.taskManager.remove("left-turn")
-            print(self.modelNode.getHpr())
+            #print(self.modelNode.getHpr())
     
     def rightTurn(self, keyDown):
         if keyDown:
             self.taskManager.add(self.applyRightTurn, "right-turn")
         else:
             self.taskManager.remove("right-turn")
-            print(self.modelNode.getHpr())    
+            #print(self.modelNode.getHpr())    
 
     def upTurn(self, keyDown):
         if keyDown:
             self.taskManager.add(self.applyUpTurn, "up-turn")
         else:
             self.taskManager.remove("up-turn")
-            print(self.modelNode.getHpr())
+            #print(self.modelNode.getHpr())
     
     def downTurn(self, keyDown):
         if keyDown:
             self.taskManager.add(self.applyDownTurn, "down-turn")
         else:
             self.taskManager.remove("down-turn")
-            print(self.modelNode.getHpr())
+            #print(self.modelNode.getHpr())
             
     def leftRoll(self, keyDown):
         if keyDown:
             self.taskManager.add(self.applyLeftRoll, "left-roll")
         else:
             self.taskManager.remove("left-roll")
-            print(self.modelNode.getHpr())                   
+            #print(self.modelNode.getHpr())                   
 
     def rightRoll(self, keyDown):
         if keyDown:
             self.taskManager.add(self.applyRightRoll, "right-roll")
         else:
             self.taskManager.remove("right-roll")
-            print(self.modelNode.getHpr())    
+            #print(self.modelNode.getHpr())    
                 
     def applyThrust(self, task):
         shipSpeed = 5 #rate of movement
@@ -266,26 +260,3 @@ class Player(CapsuleCollidableObject, ShowBase):
     def applyRightRoll(self, task): 
         self.modelNode.setR(self.modelNode.getR() + self.turnRate)
         return Task.cont      
-    
-    
-class GameConstruct(ShowBase):
-    def __init__(self,
-                 nodeName: str, 
-                 loader: Loader, parentNode: NodePath,  
-                 modelPath: str, texPath: str, 
-                 posVec: Vec3, hpr: Vec3, scaleVec: float):
-        
-
-        self.modelNode = loader.loadModel(modelPath)
-        self.modelNode.reparentTo(parentNode)
-        
-        self.modelNode.setName(nodeName)
-        self.modelNode.setTexture(loader.loadTexture(texPath), 1)
-        
-        self.modelNode.setPos(posVec)
-        self.modelNode.setHpr(hpr) 
-        self.modelNode.setScale(scaleVec)  
-    
-
-
-        
