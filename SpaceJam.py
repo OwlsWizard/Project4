@@ -70,8 +70,9 @@ class MyApp(ShowBase):
                                                          "SpaceStation", "./Assets/SpaceStation/spaceStation.x",  "./Assets/SpaceStation/SpaceStation1_Dif2.png", 
                                                          (-100,-100, 20), (0, 90, 0), (1)) 
         
-        self.Player = spaceJamClasses.Player("Spaceship", self.loader, self.render, 
-                                             "./Assets/Spaceships/theBorg/theBorg.x",  "./Assets/Spaceships/theBorg/small_space_ship_2_color.jpg", 
+        self.Player = spaceJamClasses.Player(self.loader, self.render, 
+                                             "Spaceship","./Assets/Spaceships/theBorg/theBorg.x",  
+                                             "./Assets/Spaceships/theBorg/small_space_ship_2_color.jpg", 
                                              (0,0,0), (0,0,0), (0.75),
                                              self.taskMgr, self.render) 
         

@@ -79,24 +79,21 @@ class Drone(CapsuleCollidableObject):
         self.modelNode.setScale(scaleVec)      
 
 
-class Player(ShowBase):
+class Player(CapsuleCollidableObject, ShowBase):
     def __init__(self,
-                 nodeName: str, 
                  loader: Loader, parentNode: NodePath,
-                 modelPath: str, texPath: str, 
+                 nodeName: str, modelPath: str,   
+                 texPath: str, 
                  posVec: Vec3, hpr: Vec3, scaleVec: float,
                  taskMgr: Task, renderer: NodePath):
+
+        super(Player, self).__init__(loader, parentNode, nodeName, modelPath, 0, 0, 5, 0, 0, 4, 15) 
         
-        self.modelNode = loader.loadModel(modelPath)
-        self.modelNode.reparentTo(parentNode)
-        
-        self.modelNode.setName(nodeName)
         self.modelNode.setTexture(loader.loadTexture(texPath), 1)
         
         self.modelNode.setPos(posVec)
         self.modelNode.setHpr(hpr) 
         self.modelNode.setScale(scaleVec)  
-        
         
         self.taskManager = taskMgr
         self.render = renderer
@@ -104,7 +101,7 @@ class Player(ShowBase):
         self.turnRate = 0.5
         self.setKeybinds()
 
-    def setKeybinds(self): #FIXME: Error with movement in relative directions
+    def setKeybinds(self): 
         self.accept("space", self.thrust, [1])
         self.accept("space-up", self.thrust, [0])
         
@@ -185,6 +182,7 @@ class Player(ShowBase):
         self.modelNode.setFluidPos(self.modelNode.getPos() + trajectory * shipSpeed) #controls movement itself
         return Task.cont
     
+    #FIXME: Old methods for relative direction error at odd angles. Scraped for now, might try to reimplement later. 
     """
     def applyLeftTurn(self, task):
         rotation = self.modelNode.getHpr()
